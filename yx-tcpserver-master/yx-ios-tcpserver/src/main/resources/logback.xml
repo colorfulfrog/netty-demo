@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Reference Manual http://logback.qos.ch/manual/index.html -->
+
+<configuration>
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- 过滤debug和trace-->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+        <!-- encoder 可以指定字符集，对于中文输出有意义 -->
+        <encoder charset="UTF-8">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger [%file:%line]- %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="RollingMainFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 过滤debug和trace-->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+
+        <file>/alidata1/logs/tcplogs/yxhl-tcp-ios.log</file>
+
+        <rollingPolicy name="file"
+                       class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/alidata1/logs/tcplogs/yxhl-tcp-ios.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+            <MaxHistory>3</MaxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%X{bizParam}] %-5level %logger [%file:%line] - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <root level="DEBUG">
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="RollingMainFile"/>
+    </root>
+
+
+</configuration>
